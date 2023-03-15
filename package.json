@@ -1,0 +1,32 @@
+{
+  "name": "event-service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/forumGamers/event-service.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/forumGamers/event-service/issues"
+  },
+  "homepage": "https://github.com/forumGamers/event-service#readme",
+  "dependencies": {
+    "@types/compression": "^1.7.2",
+    "@types/dotenv": "^8.2.0",
+    "@types/helmet": "^4.0.0",
+    "@types/morgan": "^1.9.4",
+    "@types/nodemailer": "^6.4.7",
+    "compression": "^1.7.4",
+    "dotenv": "^16.0.3",
+    "helmet": "^6.0.1",
+    "morgan": "^1.10.0",
+    "nodemailer": "^6.9.1"
+  }
+}
