@@ -6,16 +6,26 @@ export const errorHandler: ErrorRequestHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  let message = "Internal Server Error";
-  let status = 500;
+  let message: string;
+  let status: number;
 
-  if (err.name === "Already verified") {
-    message = err.name;
-    status = 400;
-  } else if (err.name === "Error") {
-    message = err.message as string;
-    status = 401;
+  switch (err.name) {
+    case "Already verified":
+      message = err.name;
+      status = 400;
+      break;
+    case "Error":
+      message = err.message as string;
+      status = 401;
+      break;
+    case "Forbidden":
+      message = err.name;
+      status = 403;
+      break;
+    default:
+      message = "Internal Server Error";
+      status = 500;
   }
 
-  if (err) res.status(status).json({ message });
+  res.status(status).json({ message });
 };

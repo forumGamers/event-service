@@ -34,7 +34,10 @@ export default class Service {
         emailSend,
         "utf-8",
         (err: NodeJS.ErrnoException | null, data: string): void => {
-          data = data.replace("[TOKEN]", url).replace("[USERNAME]", userName);
+          data = data
+            .replace("[TOKEN]", url)
+            .replace("[USERNAME]", userName)
+            .replace("[PUBLIC]", process.env.PUBLIC as string);
 
           sendEmail(email, "Verification Account", data, next)
             .then(() => {
@@ -42,7 +45,43 @@ export default class Service {
                 message: "success",
               });
             })
-            .catch((err) => next(err));
+            .catch((err) => {
+              next(err);
+            });
+        }
+      );
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  public static async ResetPasswordEmail(
+    req: Request | any,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const { email, userName } = req.user;
+
+      const { access_token } = req.headers;
+
+      const url = `${process.env.PUBLIC}/change-password?token=${access_token}`;
+
+      const emailSend = path.join(__dirname, "");
+
+      fs.readFile(
+        emailSend,
+        "utf-8",
+        (err: NodeJS.ErrnoException | null, data: string): void => {
+          data = data.replace("[URL]", url).replace("[USERNAME]", userName);
+
+          sendEmail(email, "Change-Password", data, next)
+            .then(() => {
+              res.status(200).json({ message: "success" });
+            })
+            .catch((err) => {
+              next(err);
+            });
         }
       );
     } catch (err) {
