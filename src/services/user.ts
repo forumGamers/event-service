@@ -12,7 +12,7 @@ export default class Service {
     next: NextFunction
   ): Promise<void> {
     try {
-      const { userName, isVerified, email } = req.body;
+      const { username, isVerified, email } = req.body;
       const { UUID } = req.params;
 
       if (isVerified === "true" || isVerified)
@@ -30,7 +30,7 @@ export default class Service {
         (err: NodeJS.ErrnoException | null, data: string): void => {
           data = data
             .replace("[TOKEN]", url)
-            .replace("[USERNAME]", userName)
+            .replace("[USERNAME]", username)
             .replace("[PUBLIC]", process.env.PUBLIC as string);
 
           sendEmail(email, "Verification Account", data, next)
