@@ -22,6 +22,10 @@ export const errorHandler: ErrorRequestHandler = (
       message = err.name;
       status = 403;
       break;
+    case "Not Found":
+      message = err.name;
+      status = 404;
+      break;
     default:
       message = "Internal Server Error";
       status = 500;

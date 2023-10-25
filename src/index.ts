@@ -52,7 +52,9 @@ class App {
   }
 
   protected routes(): void {
-    this.app.use(routes);
+    this.app.use("/api/v1", routes).use("/*", (req, res, next) => {
+      next({ message: "Not Found" });
+    });
   }
 
   protected errorHandling(): void {
