@@ -1,14 +1,22 @@
-import { JwtPayload, sign, verify } from "jsonwebtoken";
+import { JwtPayload, Secret, sign, SignOptions, verify } from "jsonwebtoken";
 
-export default abstract class Encryption {
-  public static generateToken(payload: any) {
-    return sign(payload, process.env.SECRET as string, {
-      algorithm: "HS256",
-      expiresIn: "1d",
-    });
-  }
-
-  public static verifyToken(token: string): JwtPayload {
-    return verify(token, process.env.SECRET as string) as JwtPayload;
-  }
+export interface jwtValue extends JwtPayload {
+  UUID: string;
+  loggedAs: "User" | "Admin" | "Seller";
 }
+
+export default new (class JWT {
+  private secret: Secret;
+
+  constructor() {
+    this.secret = process.env.SECRET as Secret;
+  }
+
+  public generateToken(data: { UUID: string }, options?: SignOptions) {
+    return sign(data, this.secret, options);
+  }
+
+  public verifyToken(token: string) {
+    return verify(token, this.secret) as jwtValue;
+  }
+})();

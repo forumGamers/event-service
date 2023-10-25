@@ -5,7 +5,7 @@ import BaseRoutes from "./base";
 class UserRoutes extends BaseRoutes {
   public routes(): void {
     this.router
-      .post("/register/:id", Service.RegisterEmail)
+      .post("/register/:UUID", Service.RegisterEmail)
       .get("/reset-password", authentication, Service.ResetPasswordEmail);
   }
 }

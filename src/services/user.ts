@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import Encryption from "../helpers/jwt";
-const { generateToken } = Encryption;
+import jwt from "../helpers/jwt";
 import EmailService from "../helpers/email";
 const { sendEmail } = EmailService;
 import path from "path";
@@ -14,17 +13,12 @@ export default class Service {
   ): Promise<void> {
     try {
       const { userName, isVerified, email } = req.body;
-      const { id } = req.params;
+      const { UUID } = req.params;
 
       if (isVerified === "true" || isVerified)
         throw { name: "Already verified" };
 
-      const payload = {
-        id,
-        userName,
-      };
-
-      const token = generateToken(payload);
+      const token = jwt.generateToken({ UUID });
 
       const url = `${process.env.PUBLIC}/user/verify?token=${token}`;
 
